@@ -376,12 +376,36 @@ export class Visitor{
 				this.where += ")";
 				break;
 			case "tolower":
-				this.where += "LCASE(";
+				let fnToLower = "";
+				switch (this.type) {
+					case SQLLang.PostgreSql:
+						fnToLower = "LOWER";
+						break;
+					case SQLLang.MsSql:
+					case SQLLang.ANSI:
+					case SQLLang.MySql:
+					default:
+						fnToLower = "LCASE";
+						break;
+				}
+				this.where += `${fnToLower}(`;
 				this.Visit(params[0], context);
 				this.where += ")";
 				break;
 			case "toupper":
-				this.where += "UCASE(";
+				let fnToUpper = "";
+				switch (this.type) {
+					case SQLLang.PostgreSql:
+						fnToUpper = "UPPER";
+						break;
+					case SQLLang.MsSql:
+					case SQLLang.ANSI:
+					case SQLLang.MySql:
+					default:
+						fnToUpper = "UCASE";
+						break;
+				}
+				this.where += `${fnToUpper}(`;
 				this.Visit(params[0], context);
 				this.where += ")";
 				break;
