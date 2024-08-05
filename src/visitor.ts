@@ -238,6 +238,7 @@ export class Visitor{
 		if (node.value.current && node.value.next){
 			this.Visit(node.value.current, context);
 			context.identifier += ".";
+			this[context.target] += ".";
 			this.Visit(node.value.next, context);
 		}else this.Visit(node.value, context);
 	}

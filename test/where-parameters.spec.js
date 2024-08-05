@@ -111,6 +111,10 @@ describe("SQL WHERE useParameters", () => {
       expect(f.where).to.equal("LCASE([A]) = ?")
   })
 
+  it("expression 5.1.1.4.7 - complexProperty: tolower(A/B/C) eq 'abc'", () => {
+    expect(f.where).to.equal("LCASE([A].[B].[C]) = ?")
+  })
+
   it("expression 5.1.1.4.8: toupper(A) eq 'ABC'", () => {
       expect(f.where).to.equal("UCASE([A]) = ?")
   })
