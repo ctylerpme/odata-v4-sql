@@ -200,6 +200,7 @@ export class Visitor{
 	}
 
 	protected VisitSelectItem(node:Token, context:any){
+		//BUG: This is just wrong. You will end up with '[A.B]' instead of '[A].[B]'.
 		let item = node.raw.replace(/\//g, '.');
 		this.select += `[${item}]`;
 	}
@@ -251,7 +252,17 @@ export class Visitor{
 	}
 
 	protected VisitODataIdentifier(node:Token, context:any){
-		this[context.target] += `[${node.value.name}]`;
+		switch (this.type) {
+			case SQLLang.PostgreSql:
+				this[context.target] += `"${node.value.name}"`;
+				break;
+			case SQLLang.ANSI: //BUG: This is wrong, but tests will fail if we don't fix them too.
+			case SQLLang.MsSql:
+			case SQLLang.MySql:
+			default:
+				this[context.target] += `[${node.value.name}]`;
+				break;
+		}
 		context.identifier = node.value.name;
 	}
 

@@ -17,12 +17,12 @@ describe("SQL WHERE useParameters (POSTGRES)", () => {
   //http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part2-url-conventions/odata-v4.0-errata02-os-part2-url-conventions-complete.html#_Toc406398116
 
 
-  it("expression 5.1.1.4.7: tolower(A) eq 'abc'", () => {
-      expect(f.where).to.equal("LOWER([A]) = ?")
+  it("expression 5.1.1.4.7: tolower(A/B) eq 'abc'", () => {
+      expect(f.where).to.equal(`LOWER("A"."B") = ?`)
   })
 
   it("expression 5.1.1.4.8: toupper(A) eq 'ABC'", () => {
-      expect(f.where).to.equal("UPPER([A]) = ?")
+      expect(f.where).to.equal(`UPPER("A") = ?`)
   })
 
 })
